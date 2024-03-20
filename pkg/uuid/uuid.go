@@ -55,7 +55,7 @@ func NewFromUnknow(s string) (UUID, error) {
 		return u, nil
 	}
 
-	return UUID{}, errors.New("unknown format")
+	return UUID{}, errors.New("unknown input format")
 }
 
 func NewFromString(s string) (UUID, error) {

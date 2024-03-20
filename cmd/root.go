@@ -1,9 +1,9 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
 
+	"github.com/fatih/color"
 	"github.com/hungtrd/uuidconv/pkg/uuid"
 	"github.com/spf13/cobra"
 )
@@ -38,7 +38,7 @@ var rootCmd = &cobra.Command{
 
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
+		printErr(err)
 		os.Exit(1)
 	}
 }
@@ -48,4 +48,8 @@ func newUUID(_ *cobra.Command) {
 
 	printUUID(u)
 	copyToClipboard(u, uuid.Format(cp))
+}
+
+func printErr(err error) {
+	color.Red("Error: %v", err)
 }

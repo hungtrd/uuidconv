@@ -6,6 +6,7 @@ import (
 	"slices"
 
 	"github.com/atotto/clipboard"
+	"github.com/fatih/color"
 	"github.com/hungtrd/uuidconv/pkg/uuid"
 	"github.com/spf13/cobra"
 )
@@ -32,7 +33,7 @@ func convertUUID(cmd *cobra.Command, args []string) {
 	var err error
 	from, err := cmd.Flags().GetString("from")
 	if err != nil {
-		fmt.Println(err)
+		printErr(err)
 	}
 
 	var u uuid.UUID
@@ -40,28 +41,29 @@ func convertUUID(cmd *cobra.Command, args []string) {
 	case uuid.FormatString:
 		u, err = uuid.NewFromString(input)
 		if err != nil {
-			fmt.Println(err)
+			printErr(err)
 		}
 	case uuid.FormatBase64:
 		u, err = uuid.NewFromBase64(input)
 		if err != nil {
-			fmt.Println(err)
+			printErr(err)
 		}
 	case uuid.FormatBase62:
 		u, err = uuid.NewFromBase62(input)
 		if err != nil {
-			fmt.Println(err)
+			printErr(err)
 		}
 	default:
 		u, err = uuid.NewFromUnknow(input)
 		if err != nil {
-			fmt.Println(err)
+			printErr(err)
+			return
 		}
 	}
 
 	to, err := cmd.Flags().GetString("to")
 	if err != nil {
-		fmt.Println(err)
+		printErr(err)
 	}
 	switch uuid.Format(to) {
 	case uuid.FormatString:
@@ -77,7 +79,7 @@ func convertUUID(cmd *cobra.Command, args []string) {
 		printUUID(u)
 		cp, err := cmd.Flags().GetString("copy")
 		if err != nil {
-			fmt.Println(err)
+			printErr(err)
 		}
 		copyToClipboard(u, uuid.Format(cp))
 	}
@@ -85,14 +87,18 @@ func convertUUID(cmd *cobra.Command, args []string) {
 
 func printUUID(u uuid.UUID, formats ...uuid.Format) {
 	fmt.Println("-------------------------")
+	c := color.New(color.Bold)
 	if slices.Contains(formats, uuid.FormatString) || len(formats) == 0 {
-		fmt.Println("UUID string:    ", u.NormalString)
+		c.Print("UUID string:    ")
+		fmt.Printf("%s\n", u.NormalString)
 	}
 	if slices.Contains(formats, uuid.FormatBase64) || len(formats) == 0 {
-		fmt.Println("Base64 encoded: ", u.Base64Encoded)
+		c.Print("Base64 encoded: ")
+		fmt.Printf("%s\n", u.Base64Encoded)
 	}
 	if slices.Contains(formats, uuid.FormatBase62) || len(formats) == 0 {
-		fmt.Println("Base62 encoded: ", u.Base62Encoded)
+		c.Print("Base62 encoded: ")
+		fmt.Printf("%s\n", u.Base62Encoded)
 	}
 	fmt.Println("-------------------------")
 }
@@ -110,7 +116,7 @@ func copyToClipboard(u uuid.UUID, format uuid.Format) {
 		s = u.NormalString
 	}
 	if err := clipboard.WriteAll(s); err != nil {
-		fmt.Printf("write to clipboard failed: %v", err)
+		printErr(fmt.Errorf("write to clipboard failed: %w", err))
 	}
-	fmt.Printf("copied %s(%s) to clipboard!\n", format, s)
+	color.New(color.FgGreen, color.Italic).Printf("copied %s(%s) to clipboard!\n", format, s)
 }
