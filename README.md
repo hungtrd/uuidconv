@@ -7,14 +7,19 @@ go install github.com/hungtrd/uuidconv@latest
 
 ## Sử dụng
 ```
-// new uuid
-// mặc định sẽ copy dạng string vào clipboard
-// -b64 để copy dạng base64 vào clipboard
-uuidconv [-b64]
+// Xem hướng dẫn sử dụng
+uuidconv -h
+```
+```
+// Tạo mới uuid
+uuidconv
 
-// encode
-uuidconv -uuid 2183dc57-ddaf-4bb0-b861-5006ad3c4a29
+// Tạo mới và copy vào clipboard
+uuidconv -c base62
 
-// decode
-uuidconv -uuid IYPcV92vS7C4YVAGrTxKKQ== -decode
+// Chuyển đổi giữa các format
+uuidconv convert -f string -t base64 2183dc57-ddaf-4bb0-b861-5006ad3c4a29
+
+// Hoặc có thể không cần chỉ định loại format input
+uuidconv convert -t base64 2183dc57-ddaf-4bb0-b861-5006ad3c4a29
 ```
