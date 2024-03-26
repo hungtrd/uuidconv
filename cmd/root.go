@@ -21,6 +21,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&cp, "copy", "c", "string", "Copy format to clipboard: string, base64, base62")
 
 	rootCmd.AddCommand(convertCmd)
+	rootCmd.AddCommand(versionCmd)
 }
 
 func initConfig() {
