@@ -1,5 +1,7 @@
 # uuidconv
-convert uuid to base64
+Chuyển đổi giữa các format UUID
+
+web version: [hungtrd.github.io/uuidconv](https://hungtrd.github.io/uuidconv)
 ## Cài đặt
 ```
 go install github.com/hungtrd/uuidconv@latest
