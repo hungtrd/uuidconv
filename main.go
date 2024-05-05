@@ -1,9 +1,17 @@
 package main
 
 import (
-	"github.com/hungtrd/uuidconv/cmd"
+	"log"
+	"net/http"
 )
 
 func main() {
-	cmd.Execute()
+	fs := http.FileServer(http.Dir("."))
+	http.Handle("/", fs)
+
+	log.Print("Listening on :3000...")
+	err := http.ListenAndServe(":3000", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 }

@@ -2,7 +2,7 @@
 const go = new Go();
 
 // start webassembly instance
-WebAssembly.instantiateStreaming(fetch('main.wasm'), go.importObject)
+WebAssembly.instantiateStreaming(fetch('./public/js/main.wasm'), go.importObject)
   .then(
     result => {
       // start go wasm instance

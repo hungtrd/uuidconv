@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <title>UUID Converter</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.5/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="public/js/wasm_exec.js"></script>
+  <script src="public/js/go.js"></script>
+</head>
+
+<body>
+  <div class="hero min-h-screen" style="background-image: url(./public/images/bg.png)">
+    <div class="hero-overlay bg-opacity-60"></div>
+    <h1 class="font-mono text-6xl text-white opacity-60 mt-20 self-start">UUID Converter</h1>
+    <div
+      class="hero-content text-center text-neutral-content w-2/3 rounded-box bg-gray-500 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-30">
+      <div class="w-full">
+        <div class="flex w-full flex-col md:flex-row">
+          <div class="grid p-3 h-auto flex-grow card rounded-box place-items-center">
+            <label class="form-control w-full m-4">
+              <div class="flex flex-row place-items-center justify-between">
+                <div class="label">
+                  <span class="label-text text-white text-base opacity-60 font-semibold">Type your UUID</span>
+                </div>
+                <button
+                  class="btn btn-xs border-none backdrop-blur-sm bg-white/30 text-white opacity-80 hover:bg-opacity-70"
+                  onclick="generate()">or
+                  make a
+                  new one</button>
+              </div>
+              <input type="text" id="inputUUID" class="input w-full text-white opacity-80 bg-opacity-40"
+                oninput="convert()" />
+              <p id="errorMsg" class="text-error text-left text-xs font-bold italic py-2 opacity-80">Please fill out
+                this field.
+              <p id="successMsg" class="text-success text-left text-xs font-bold italic py-2 opacity-80 hidden">
+                Converted successfully!
+              </p>
+            </label>
+          </div>
+
+          <div
+            class="divider divider-horizontal w-auto text-white opacity-60 after:bg-white after:opacity-30 before:bg-white before:opacity-30">
+            CONVERT
+          </div>
+
+          <div class="grid p-3 h-auto flex-grow card rounded-box place-items-center">
+            <label class="input w-full flex items-center gap-2 m-4 hover:!cursor-default opacity-80 bg-opacity-40">
+              <input type="text" id="stringUUID" class="grow text-white hover:!cursor-default" placeholder="String"
+                readonly />
+              <div class="tooltip tooltip-primary tooltip-right" data-tip="copy">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                  class="w-5 h-5 opacity-50 text-white hover:opacity-90 hover:cursor-pointer hover:fill-white"
+                  width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                  <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                </svg>
+              </div>
+            </label>
+            <label class="input w-full flex items-center gap-2 m-4 hover:!cursor-default opacity-80 bg-opacity-40">
+              <input type="text" id="base64UUID" class="grow text-white hover:!cursor-default" placeholder="Base64"
+                readonly />
+              <div class="tooltip tooltip-primary tooltip-right" data-tip="copy">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                  class="w-5 h-5 opacity-50 text-white hover:opacity-90 hover:cursor-pointer hover:fill-white"
+                  width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                  <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                </svg>
+              </div>
+            </label>
+            <label class="input w-full flex items-center gap-2 m-4 hover:!cursor-default opacity-80 bg-opacity-40">
+              <input type="text" id="base62UUID" class="grow text-white hover:!cursor-default" placeholder="Base62"
+                readonly />
+              <div class="tooltip tooltip-primary tooltip-right" data-tip="copy">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                  class="w-5 h-5 opacity-50 text-white hover:opacity-90 hover:cursor-pointer hover:fill-white"
+                  width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                  <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                </svg>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="self-end">
+      <div class="text-center text-white opacity-60 py-4">
+        <p>©
+          <script>document.write(new Date().getFullYear())</script> <a href="https://github.com/hungtrd">HungTrd</a>
+        </p>
+      </div>
+    </footer>
+  </div>
+</body>
+
+<script>
+  let convert = () => {
+    let input = document.querySelector("#inputUUID").value;
+    if (input != "") {
+      document.getElementById("errorMsg").classList.add("hidden");
+    }
+    let resp = uuidConvert(input);
+    console.log(resp);
+
+    try {
+      const obj = JSON.parse(resp);
+      resetAll();
+      setValue(obj);
+      document.getElementById("successMsg").classList.remove("hidden");
+    } catch (e) {
+      console.log(e);
+      resetAll();
+      document.getElementById("errorMsg").classList.remove("hidden");
+      document.getElementById("errorMsg").innerHTML = resp;
+    }
+  };
+
+  let generate = () => {
+    let resp = uuidNew();
+    console.log(resp);
+    const obj = JSON.parse(resp);
+
+    document.getElementById("inputUUID").value = "";
+    resetAll();
+    setValue(obj)
+  };
+
+  let setValue = (obj) => {
+    document.getElementById("stringUUID").value = obj.uuid;
+    document.getElementById("base64UUID").value = obj.base64;
+    document.getElementById("base62UUID").value = obj.base62;
+  }
+
+  const svgElements = document.querySelectorAll('.tooltip-primary svg');
+
+  svgElements.forEach((svgElement) => {
+    svgElement.addEventListener('click', () => {
+      const closestLabel = svgElement.closest('label');
+
+      if (closestLabel) {
+        const inputElement = closestLabel.querySelector('input');
+
+        if (inputElement && inputElement.value) {
+          inputElement.select();
+          document.execCommand('copy');
+
+          console.log('copied: ', inputElement.value);
+          const closestTooltip = svgElement.closest('.tooltip');
+          if (closestTooltip) {
+            console.log(closestTooltip)
+            closestTooltip.setAttribute("data-tip", "copied!");
+            setTimeout(function () {
+              closestTooltip.setAttribute("data-tip", "copy");
+            }, 3000);
+          }
+        }
+      }
+    });
+  });
+
+  const resetAll = () => {
+    document.getElementById("stringUUID").value = "";
+    document.getElementById("base64UUID").value = "";
+    document.getElementById("base62UUID").value = "";
+    document.getElementById("errorMsg").classList.add("hidden");
+    document.getElementById("successMsg").classList.add("hidden");
+  }
+</script>
+
+</html>
