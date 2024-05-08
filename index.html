@@ -16,9 +16,9 @@
 <body>
   <div class="hero min-h-screen" style="background-image: url(./public/images/bg.png)">
     <div class="hero-overlay bg-opacity-60"></div>
-    <h1 class="font-mono text-6xl text-white opacity-60 mt-20 self-start">UUID Converter</h1>
+    <h1 class="font-mono sm:text-6xl text-3xl text-white opacity-60 sm:mt-20 mt-7 self-start ">UUID Converter</h1>
     <div
-      class="hero-content text-center text-neutral-content w-2/3 rounded-box bg-gray-500 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-30">
+      class="hero-content text-center text-neutral-content md:w-2/3 sm:w-3/4 rounded-box bg-gray-500 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-30">
       <div class="w-full">
         <div class="flex w-full flex-col md:flex-row">
           <div class="grid p-3 h-auto flex-grow card rounded-box place-items-center">
@@ -44,14 +44,14 @@
           </div>
 
           <div
-            class="divider divider-horizontal w-auto text-white opacity-60 after:bg-white after:opacity-30 before:bg-white before:opacity-30">
+            class="divider md:divider-horizontal w-auto text-white opacity-60 after:bg-white after:opacity-30 before:bg-white before:opacity-30">
             CONVERT
           </div>
 
           <div class="grid p-3 h-auto flex-grow card rounded-box place-items-center">
             <label class="input w-full flex items-center gap-2 m-4 hover:!cursor-default opacity-80 bg-opacity-40">
-              <input type="text" id="stringUUID" class="grow text-white hover:!cursor-default" placeholder="String"
-                readonly />
+              <input type="text" id="stringUUID" class="grow text-white placeholder-white hover:!cursor-default"
+                placeholder="String" readonly />
               <div class="tooltip tooltip-primary tooltip-right" data-tip="copy">
                 <svg xmlns="http://www.w3.org/2000/svg"
                   class="w-5 h-5 opacity-50 text-white hover:opacity-90 hover:cursor-pointer hover:fill-white"
@@ -63,8 +63,8 @@
               </div>
             </label>
             <label class="input w-full flex items-center gap-2 m-4 hover:!cursor-default opacity-80 bg-opacity-40">
-              <input type="text" id="base64UUID" class="grow text-white hover:!cursor-default" placeholder="Base64"
-                readonly />
+              <input type="text" id="base64UUID" class="grow text-white placeholder-white hover:!cursor-default"
+                placeholder="Base64" readonly />
               <div class="tooltip tooltip-primary tooltip-right" data-tip="copy">
                 <svg xmlns="http://www.w3.org/2000/svg"
                   class="w-5 h-5 opacity-50 text-white hover:opacity-90 hover:cursor-pointer hover:fill-white"
@@ -76,8 +76,8 @@
               </div>
             </label>
             <label class="input w-full flex items-center gap-2 m-4 hover:!cursor-default opacity-80 bg-opacity-40">
-              <input type="text" id="base62UUID" class="grow text-white hover:!cursor-default" placeholder="Base62"
-                readonly />
+              <input type="text" id="base62UUID" class="grow text-white placeholder-white hover:!cursor-default"
+                placeholder="Base62" readonly />
               <div class="tooltip tooltip-primary tooltip-right" data-tip="copy">
                 <svg xmlns="http://www.w3.org/2000/svg"
                   class="w-5 h-5 opacity-50 text-white hover:opacity-90 hover:cursor-pointer hover:fill-white"
